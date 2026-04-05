@@ -4,11 +4,10 @@
     <strong>Semantic-diff-aware code intelligence for AI coding assistants</strong>
   </p>
   <p align="center">
-    <a href="https://github.com/YashNamdeo/deltalens/actions/workflows/ci.yml"><img src="https://github.com/YashNamdeo/deltalens/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-    <a href="https://pypi.org/project/deltalens/"><img src="https://img.shields.io/pypi/v/deltalens?color=blue" alt="PyPI"></a>
-    <a href="https://pypi.org/project/deltalens/"><img src="https://img.shields.io/pypi/pyversions/deltalens" alt="Python"></a>
-    <a href="https://github.com/YashNamdeo/deltalens/blob/main/LICENSE"><img src="https://img.shields.io/github/license/YashNamdeo/deltalens" alt="License"></a>
-    <a href="https://github.com/YashNamdeo/deltalens/stargazers"><img src="https://img.shields.io/github/stars/YashNamdeo/deltalens?style=social" alt="Stars"></a>
+    <a href="https://github.com/YashNamdeo/DeltaLens/actions/workflows/ci.yml"><img src="https://github.com/YashNamdeo/DeltaLens/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+    <a href="https://github.com/YashNamdeo/DeltaLens/blob/main/LICENSE"><img src="https://img.shields.io/github/license/YashNamdeo/DeltaLens" alt="License"></a>
+    <img src="https://img.shields.io/badge/python-3.11%2B-blue" alt="Python 3.11+">
+    <a href="https://github.com/YashNamdeo/DeltaLens/stargazers"><img src="https://img.shields.io/github/stars/YashNamdeo/DeltaLens?style=social" alt="Stars"></a>
   </p>
 </p>
 
@@ -43,7 +42,7 @@ git diff --> Change Classifier --> Impact Scorer --> Token Allocator --> AI Assi
 
 **Layer 1 — Change Classification** (gate the traversal)
 ```python
-class ChangeKind(Enum):
+class ChangeKind(StrEnum):
     INTERFACE = "interface"   # signature, decorators, exports changed
     IMPL      = "impl"       # body only changed
     ADDED     = "added"
@@ -76,8 +75,10 @@ score = base_weight(edge_type) * distance_decay(hops) * change_multiplier(kind)
 ## Quick Start
 
 ```bash
-# Install from PyPI
-pip install deltalens
+# Install from source
+git clone https://github.com/YashNamdeo/DeltaLens.git
+cd DeltaLens
+pip install -e .
 
 # Initialize in your repo
 cd your-project
@@ -167,6 +168,7 @@ deltalens/
 ├── incremental.py   # SHA-256 hashing + git diff
 ├── scorer.py        # 0-1 impact scoring
 ├── allocator.py     # Token budget -> representation tiers
+├── context.py       # Shared delta-context pipeline
 ├── search.py        # BM25 + dense hybrid search
 ├── flows.py         # Entry-point detection
 ├── server.py        # MCP server (all tools)
@@ -176,14 +178,15 @@ deltalens/
 ## Development
 
 ```bash
-git clone https://github.com/YashNamdeo/deltalens.git
-cd deltalens
-uv sync --extra dev
+git clone https://github.com/YashNamdeo/DeltaLens.git
+cd DeltaLens
+pip install -e ".[dev]"
 
 # Run all checks
-uv run ruff check deltalens/        # lint
-uv run mypy deltalens/ --strict     # type check
-uv run pytest tests/ -q             # test
+black . --line-length 80 --check                       # format
+ruff check . --ignore E501                             # lint
+mypy . --ignore-missing-imports --check-untyped-defs   # type check
+pytest tests/ -q                                       # test
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contributor guide.
@@ -195,6 +198,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contributor guide.
 - [ ] Benchmark suite with real-world repos
 - [ ] Multi-repo graph federation
 - [ ] Custom scoring plugins
+- [ ] PyPI package (`pip install deltalens`)
 
 ## License
 
