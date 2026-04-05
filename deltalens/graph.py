@@ -29,8 +29,7 @@ class GraphStore:
         self._nx: nx.DiGraph | None = None
 
     def _create_tables(self) -> None:
-        self.conn.executescript(
-            """
+        self.conn.executescript("""
             CREATE TABLE IF NOT EXISTS nodes (
                 id TEXT PRIMARY KEY,
                 kind TEXT NOT NULL,
@@ -77,17 +76,14 @@ class GraphStore:
             CREATE INDEX IF NOT EXISTS idx_nodes_kind ON nodes(kind);
             CREATE INDEX IF NOT EXISTS idx_edges_source ON edges(source_id);
             CREATE INDEX IF NOT EXISTS idx_edges_target ON edges(target_id);
-        """
-        )
+        """)
 
         # FTS5 for full-text search (standalone, not content-linked)
         with contextlib.suppress(sqlite3.OperationalError):
-            self.conn.execute(
-                """
+            self.conn.execute("""
                 CREATE VIRTUAL TABLE IF NOT EXISTS nodes_fts
                 USING fts5(node_id, name, qualified_name, signature, docstring)
-            """
-            )
+            """)
 
         self.conn.commit()
 
@@ -336,12 +332,10 @@ class GraphStore:
         """Rebuild the FTS5 index from the nodes table."""
         try:
             self.conn.execute("DELETE FROM nodes_fts")
-            self.conn.execute(
-                """
+            self.conn.execute("""
                 INSERT INTO nodes_fts(node_id, name, qualified_name, signature, docstring)
                 SELECT id, name, qualified_name, signature, docstring FROM nodes
-            """
-            )
+            """)
             self.conn.commit()
         except sqlite3.OperationalError:
             pass
