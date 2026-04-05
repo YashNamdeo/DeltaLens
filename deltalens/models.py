@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 
 
-class NodeKind(str, Enum):
+class NodeKind(StrEnum):
     """Types of nodes in the code graph."""
 
     FILE = "file"
@@ -16,7 +16,7 @@ class NodeKind(str, Enum):
     MODULE = "module"
 
 
-class EdgeKind(str, Enum):
+class EdgeKind(StrEnum):
     """Types of edges in the code graph."""
 
     CALLS = "calls"
@@ -28,7 +28,7 @@ class EdgeKind(str, Enum):
     OVERRIDES = "overrides"
 
 
-class ChangeKind(str, Enum):
+class ChangeKind(StrEnum):
     """Classification of how a node changed."""
 
     INTERFACE = "interface"  # signature, decorators, exports changed
@@ -37,7 +37,7 @@ class ChangeKind(str, Enum):
     DELETED = "deleted"
 
 
-class RepresentationTier(str, Enum):
+class RepresentationTier(StrEnum):
     """How a node should be represented in the context payload."""
 
     FULL = "full"  # full source with diff markers
