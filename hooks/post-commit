@@ -1,0 +1,7 @@
+#!/bin/sh
+# DeltaLens post-commit hook — triggers incremental graph update
+# Install: cp hooks/post-commit .git/hooks/post-commit && chmod +x .git/hooks/post-commit
+
+if command -v deltalens >/dev/null 2>&1; then
+    deltalens update "$(git rev-parse --show-toplevel)" &
+fi

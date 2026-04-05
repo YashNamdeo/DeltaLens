@@ -1,0 +1,99 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "deltalens"
+version = "0.1.0"
+description = "Semantic-diff-aware code intelligence layer for AI coding assistants"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [{ name = "DeltaLens Contributors" }]
+keywords = [
+    "mcp",
+    "mcp-server",
+    "code-intelligence",
+    "semantic-diff",
+    "tree-sitter",
+    "context-optimization",
+    "ai-coding",
+    "llm",
+    "claude-code",
+    "cursor",
+    "ast",
+    "code-review",
+    "context-window",
+    "token-optimization",
+    "static-analysis",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Code Generators",
+    "Typing :: Typed",
+]
+dependencies = [
+    "tree-sitter>=0.24.0",
+    "tree-sitter-python>=0.23.0",
+    "tree-sitter-javascript>=0.23.0",
+    "tree-sitter-typescript>=0.23.0",
+    "networkx>=3.2",
+    "click>=8.1",
+    "mcp>=1.0.0",
+    "watchdog>=4.0",
+]
+
+[project.optional-dependencies]
+search = [
+    "sentence-transformers>=2.2",
+    "faiss-cpu>=1.7",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.4",
+    "mypy>=1.10",
+    "black>=24.0",
+]
+
+[project.scripts]
+deltalens = "deltalens.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/YashNamdeo/DeltaLens"
+Repository = "https://github.com/YashNamdeo/DeltaLens"
+Issues = "https://github.com/YashNamdeo/DeltaLens/issues"
+Changelog = "https://github.com/YashNamdeo/DeltaLens/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/YashNamdeo/DeltaLens#readme"
+
+[tool.black]
+line-length = 80
+
+[tool.ruff]
+target-version = "py311"
+line-length = 80
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "SIM", "TCH"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.hatch.build.targets.wheel]
+packages = ["deltalens"]
