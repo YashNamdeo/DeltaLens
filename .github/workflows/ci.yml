@@ -26,7 +26,7 @@ jobs:
         run: uv sync --extra dev
 
       - name: Format check
-        run: uv run black . --line-length 80 --check
+        run: uv run black . --line-length 80 --target-version py311 --check
 
       - name: Lint
         run: uv run ruff check . --ignore E501
